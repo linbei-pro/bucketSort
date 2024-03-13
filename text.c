@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// ¶¨ÒåÍ°µÄ½á¹¹Ìå
+// å®šä¹‰æ¡¶çš„ç»“æ„ä½“
 typedef struct Node {
     int data;
     struct Node* next;
 } Node;
 
-// ²åÈëÅÅĞò£¬ÓÃÓÚ¶ÔÃ¿¸öÍ°ÄÚ²¿½øĞĞÅÅĞò
+// æ’å…¥æ’åºï¼Œç”¨äºå¯¹æ¯ä¸ªæ¡¶å†…éƒ¨è¿›è¡Œæ’åº
 void insertionSort(Node** bucket) {
     Node* sorted = NULL;
     Node* current = *bucket;
@@ -15,7 +15,7 @@ void insertionSort(Node** bucket) {
     while (current != NULL) {
         Node* next = current->next;
 
-        // ²åÈëÅÅĞò
+        // æ’å…¥æ’åº
         if (sorted == NULL || sorted->data >= current->data) {
             current->next = sorted;
             sorted = current;
@@ -35,32 +35,32 @@ void insertionSort(Node** bucket) {
     *bucket = sorted;
 }
 
-// Í°ÅÅĞò
+// æ¡¶æ’åº
 void bucketSort(int arr[], int n) {
-    // Ñ¡ÔñÍ°µÄÊıÁ¿£¬ÕâÀï¼òµ¥µØÑ¡ÔñÓëÊı×é³¤¶ÈÏàµÈµÄÍ°ÊıÁ¿
+    // é€‰æ‹©æ¡¶çš„æ•°é‡ï¼Œè¿™é‡Œç®€å•åœ°é€‰æ‹©ä¸æ•°ç»„é•¿åº¦ç›¸ç­‰çš„æ¡¶æ•°é‡
     const int numBuckets = n;
 
-    // ´´½¨Í°Êı×é£¨¶¯Ì¬ÄÚ´æ·ÖÅä£©
+    // åˆ›å»ºæ¡¶æ•°ç»„ï¼ˆåŠ¨æ€å†…å­˜åˆ†é…ï¼‰
     Node** buckets = (Node**)malloc(numBuckets * sizeof(Node*));
     for (int i = 0; i < numBuckets; i++) {
         buckets[i] = NULL;
     }
 
-    // ½«ÔªËØ·ÖÅäµ½Í°ÖĞ
+    // å°†å…ƒç´ åˆ†é…åˆ°æ¡¶ä¸­
     for (int i = 0; i < n; i++) {
-        int bucketIndex = arr[i] * numBuckets / (100 + 1);  // ÊÊÓ¦¾ßÌåµÄÊı¾İ·¶Î§
+        int bucketIndex = arr[i] * numBuckets / (37 + 1);  // é€‚åº”å…·ä½“çš„æ•°æ®èŒƒå›´ï¼ˆvalue/(max+1)*nï¼‰
         Node* newNode = (Node*)malloc(sizeof(Node));
         newNode->data = arr[i];
         newNode->next = buckets[bucketIndex];
         buckets[bucketIndex] = newNode;
     }
 
-    // ¶ÔÃ¿¸öÍ°ÄÚ²¿½øĞĞÅÅĞò
+    // å¯¹æ¯ä¸ªæ¡¶å†…éƒ¨è¿›è¡Œæ’åº
     for (int i = 0; i < numBuckets; i++) {
         insertionSort(&buckets[i]);
     }
 
-    // ºÏ²¢Í°ÖĞµÄÔªËØµÃµ½ÓĞĞòÊı×é
+    // åˆå¹¶æ¡¶ä¸­çš„å…ƒç´ å¾—åˆ°æœ‰åºæ•°ç»„
     int index = 0;
     for (int i = 0; i < numBuckets; i++) {
         Node* current = buckets[i];
@@ -72,23 +72,23 @@ void bucketSort(int arr[], int n) {
         }
     }
 
-    // ÊÍ·ÅÍ°Êı×éµÄ¶¯Ì¬ÄÚ´æ
+    // é‡Šæ”¾æ¡¶æ•°ç»„çš„åŠ¨æ€å†…å­˜
     free(buckets);
 }
 
-// ²âÊÔÍ°ÅÅĞò
+// æµ‹è¯•æ¡¶æ’åº
 int main() {
     int arr[] = { 29, 10, 14, 37, 13 };
     int n = sizeof(arr) / sizeof(arr[0]);
 
-    printf("Ô­Ê¼Êı×é£º");
+    printf("åŸå§‹æ•°ç»„ï¼š");
     for (int i = 0; i < n; i++) {
         printf("%d ", arr[i]);
     }
 
     bucketSort(arr, n);
 
-    printf("\nÅÅĞòºóÊı×é£º");
+    printf("\næ’åºåæ•°ç»„ï¼š");
     for (int i = 0; i < n; i++) {
         printf("%d ", arr[i]);
     }
